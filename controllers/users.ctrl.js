@@ -41,7 +41,7 @@ class UsersCtrl {
             const user = new User({
                 email: data.email,
                 name: data.name,
-                image: data.file ? data.file.path : undefined,
+                image: data.file ? data.file.filename : undefined,
                 password: hash
             });
             user.username = data.username;

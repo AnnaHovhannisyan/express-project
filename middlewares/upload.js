@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + '.' + mimeType.extension(file.mimetype));
+        cb(null, file.fieldname + '-' + Date.now() + `${file.originalname.slice(0, file.originalname.indexOf('.'))}`+'.' + mimeType.extension(file.mimetype));
     }
 });
 

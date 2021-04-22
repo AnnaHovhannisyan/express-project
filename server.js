@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = require('./router');
 const {mongodb}=require('./config');
-//const io = require('./socket');
+const io = require('./socket');
 const cors = require('cors');
 const app = express();
 
@@ -21,7 +21,7 @@ global.__homedir = __dirname;
 
 router(app);
 
-/*let url=mongodb.link;
+let url=mongodb.link;
 mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -30,13 +30,16 @@ mongoose.connect(url, {
 }).then(() => {
     const server = http.createServer(app);
     server.listen(3000);
-    //io(server);
-});*/
-let url=mongodb.link;
+    io(server);
+});
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('connected', ()=>console.log('connected'));
+/*let url=mongodb.link;
 mongoose.set('useCreateIndex', true);
 mongoose.connect(url, { useNewUrlParser: true , useUnifiedTopology: true,useFindAndModify:false});
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('connected', ()=>console.log('connected'));
 const server = http.createServer(app);
-server.listen(3000);
+server.listen(3000);*/
