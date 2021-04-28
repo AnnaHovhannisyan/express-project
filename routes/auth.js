@@ -13,6 +13,7 @@ const router = express.Router();
 router.post('/login',
     body('username').exists(),
     body('password').exists(),
+    body('email').exists(),
     responseHandler,
     validationResult,
     async (req, res) => {
@@ -28,7 +29,7 @@ router.post('/login',
 );
 
 router.post('/forgot-password',
-    body('email').isEmail(),
+   // body('email').isEmail(),
     responseHandler,
     validationResult,
     async (req, res) => {
@@ -81,6 +82,7 @@ router.post('/register',
     body('password').exists().bail().isLength({min: 6}).custom(value => {
         return new RegExp("^[A-Z0-9.,/ $@()]+$").test(value);
     }),
+   // body('email').exists().bail(),
     responseHandler,
     validationResult,
     async (req, res) => {

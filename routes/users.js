@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/upload');
 const path = require('path');
-const {Types} = require('mongoose');
+//const {Types} = require('mongoose');
 const fs = require('fs');
 const User = require('../models/users');
 const responseManager = require('../middlewares/response-handler');
@@ -40,6 +40,7 @@ router.route('/').get(
             let userdata = await UsersCtrl.add({
                 name: req.body.name,
                 username: req.body.username,
+                email:req.body.email,
                 file: req.file,
                 password: req.body.password
             });
@@ -69,7 +70,7 @@ router.route('/current').get(
     responseManager,
     validateToken,
     body('name').exists(),
-    body('email').isEmail(),
+   // body('email').isEmail(),
     async (req, res) => {
         try {
             const updatedData = await UsersCtrl.update({
@@ -191,6 +192,7 @@ router.route('/:id').get(async (req, res) => {
         if (user) {
             await fs.unlink(path.join(__homedir, user.image));
             user.name = req.body.name;
+            user.email = req.body.email;
             user.image = req.file.path;
             await user.save();
             res.json({

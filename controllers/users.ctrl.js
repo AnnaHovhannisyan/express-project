@@ -22,7 +22,7 @@ class UsersCtrl {
         options.$and.push({_id: {$ne: data.userId}});
         const limit = {};
         if (data.name) {
-            options.$and.push({name: new RegExp(data.name, 'i')});
+            options.$and.push({name: new RegExp("^"+ data.name, 'i')});
         }
 
         if (data.limit) {
@@ -52,6 +52,7 @@ class UsersCtrl {
 
     async update(data) {
         const {userId, name, image, email} = data;
+
         const user = await User.findById(userId);
 
         if (!user) {
